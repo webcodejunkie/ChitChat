@@ -1,6 +1,6 @@
-# ChitChat
+# ChitChat —  Messaging Mobile Application
 
-## Application Description and Goal
+## Application Description & Goal
 
 ### Description
 
@@ -50,3 +50,8 @@ and location data.
   
 3.) You'll be given expo commands to run the application via the Web or through your phone just follow these necessary steps to set it up https://docs.expo.dev/guides/testing-on-devices/
 </details>
+
+## Technologies Built With
+
+* React Native
+* Expo
