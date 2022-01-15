@@ -12,14 +12,22 @@ export default class Start extends React.Component {
     super(props);
     this.state = {
       name: '',
-      backgroundColor: null,
+      backgroundColor: '#090C08',
       activeColor: null,
+      isSelected: 0,
     };
   }
+
+  handleSelected = (index) => {
+    this.setState({
+      isSelected: index
+    });
+  }
+
   render() {
 
     // Array for color buttons
-    const color = ['#090C08', '#474056', '#8A95A5', '#B9C6AE'];
+    const color = ['#090C08', '#474056', '#226478', '#5e248a'];
 
     // Background image
     const image = require('../assets/background.png');
@@ -30,7 +38,14 @@ export default class Start extends React.Component {
         <View style={styles.inputBox}>
           <View style={styles.inputContainer}>
             <Icon name="user" size={20} color="gray" />
-            <TextInput placeholder='Your Name' style={styles.nameInput} onChangeText={(name) => this.setState({ name })} value={this.state.name} />
+            <TextInput
+              accessible={true}
+              accessibilityLabel="Name Input"
+              accessibilityHint="Let's you type in display name"
+              placeholder='Your Name'
+              style={styles.nameInput}
+              onChangeText={(name) => this.setState({ name })}
+              value={this.state.name} />
           </View>
           <View>
             <Text>Choose Background Color:</Text>
@@ -40,19 +55,31 @@ export default class Start extends React.Component {
               {color.map((colors, index) => {
                 return <TouchableOpacity
                   key={index}
+                  accessible={true}
+                  accessibilityLabel="Color Picker"
+                  accessibilityHint="Let's you choose a color for your chat background"
                   onPress={() => {
                     this.setState({
                       backgroundColor: colors,
                       activeColor: colors
                     });
+                    this.handleSelected(index);
                   }}
-                  style={{ width: 50, height: 50, borderRadius: 50, backgroundColor: colors, margin: 10, }}
+                  style={[this.state.isSelected === index ?
+                    { borderWidth: 3, borderColor: "#12ff51", borderStyle: "solid", borderRadius: 50, margin: 10, width: 55, height: 55, borderRadius: 50, backgroundColor: colors, }
+                    :
+                    { width: 50, height: 50, borderRadius: 50, backgroundColor: colors, margin: 10, }]}
                 />
               })}
             </View>
           </View>
           <View>
-            <Pressable style={styles.startButtonStyle} onPress={() => this.props.navigation.navigate("Chat", { name: this.state.name, bgColor: this.state.backgroundColor })}>
+            <Pressable
+              accessible={true}
+              accessibilityLabel="Enter Chat"
+              accessibilityHint="Enter Chat"
+              style={styles.startButtonStyle}
+              onPress={() => this.props.navigation.navigate("Chat", { name: this.state.name, bgColor: this.state.backgroundColor })}>
               <Text style={styles.startText}>Start Chatting</Text>
             </Pressable>
           </View>
@@ -66,7 +93,7 @@ const styles = StyleSheet.create({
 
   image: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
   },
@@ -78,7 +105,9 @@ const styles = StyleSheet.create({
   },
 
   inputBox: {
+    width: '88%',
     backgroundColor: '#FFF',
+    borderRadius: 4,
     padding: 20,
     justifyContent: 'space-evenly',
   },
@@ -91,10 +120,11 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderStyle: 'solid',
     borderRadius: 2,
-    padding: 20,
+    padding: 15,
   },
 
   nameInput: {
+    width: '100%',
     fontSize: 16,
     fontWeight: '300',
     color: '#757083',
@@ -106,7 +136,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 
+  isSelected: {
+    borderWidth: 1,
+    borderColor: "black",
+    borderStyle: "solid",
+    borderRadius: 50,
+    margin: 10,
+  },
+
   startButtonStyle: {
+    borderRadius: 4,
     alignItems: 'center',
     backgroundColor: '#757083',
   },
