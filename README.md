@@ -24,16 +24,27 @@ Over time, however, new technologies emerged that made it easier for companies t
 maintain mobile applications using familiar syntax. One of these technologies is React Native, a
 framework for building Android and iOS apps that only requires one codebase.
 
+## Key Features
+
+● A page where users can enter their name and choose a background color for the chat screen
+before joining the chat.
+
+● A page displaying the conversation, as well as an input field and submit button.
+
+● The chat must provide users with two additional communication features: sending images
+and location data.
+
+● Data gets stored online and offline.
+
+
 ## Set Up Process
 
 <details><summary>Set Up</summary>
-  1.) To set up this project, simply download the code and run in the main project direcotry's terminal 
+  1.) To set up this project, simply download the code and run in the main project direcotry's terminal to get all your modules set up. 
 
 ``` npm install ``` 
-  
-  to get all your modules set up.
 
-  2.) Next, run inside the main project directory 
+  2.) Next, *run expo start* inside the main project directory 
   
 ``` expo start ```
   
