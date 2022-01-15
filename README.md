@@ -28,10 +28,12 @@ framework for building Android and iOS apps that only requires one codebase.
 
 <details><summary>Set Up</summary>
   1.) To set up this project, simply download the code and run in the main project direcotry's terminal 
-  ``` npm install ``` 
+
+``` npm install ``` 
   
   to get all your modules set up.
-2.) Next, run inside the main project directory 
+
+  2.) Next, run inside the main project directory 
   
 ``` expo start ```
   
