@@ -13,7 +13,7 @@ export default class Start extends React.Component {
     this.state = {
       name: '',
       backgroundColor: '#090C08',
-      activeColor: null,
+      activeColor: '#090C08',
       isSelected: 0,
     };
   }
