@@ -28,15 +28,12 @@ framework for building Android and iOS apps that only requires one codebase.
 
 <details><summary>Set Up</summary>
   1.) To set up this project, simply download the code and run in the main project direcotry's terminal 
-```
-npm install
-
-```
-to get all your modules set up.
+  ``` npm install ``` 
+  
+  to get all your modules set up.
 2.) Next, run inside the main project directory 
-```
-expo start
-
-```
+  
+``` expo start ```
+  
 3.) You'll be given expo commands to run the application via the Web or through your phone just follow these necessary steps to set it up https://docs.expo.dev/guides/testing-on-devices/
 </details>
