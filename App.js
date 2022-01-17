@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+
 // import the chat and start screen from the components folder
 import Start from './components/Start';
 import Chat from './components/Chat';

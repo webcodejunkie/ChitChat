@@ -13,6 +13,7 @@ import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 
 import { View, Platform, KeyboardAvoidingView, StyleSheet } from 'react-native';
 
+
 // firebase credentials
 const firebaseConfig = {
     apiKey: "AIzaSyAgzF-tpPzhMOMV41ScaOX21f36PmBqRRk",
@@ -54,7 +55,7 @@ export default class Chat extends React.Component {
     this.props.navigation.setOptions({ title: name });
 
     // once component is mounted, check if the user is signed in, if not, created a user through sign in anonymously
-    this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    this.authUnsubscribe = firebase.auth().onAuthStateChanged( (user) => {
       if (!user) {
         firebase.auth().signInAnonymously();
       }
@@ -63,16 +64,22 @@ export default class Chat extends React.Component {
       this.setState({
         uid: user.uid,
         messages: [],
+        user: {
+          _id: user.uid,
+          name: name,
+          avatar: "https://placeimg.com/140/140/any",
+        },
       });
 
       // listen for updates in the collection
       console.log(this.unsubscribe);
       this.unsubscribe = this.referenceChatMessages
         .orderBy("createdAt", "desc")
-        .onSnapShot(this.onCollectionUpdate);
+        .onSnapshot(this.onCollectionUpdate);
 
       // created a reference to the active user's documents
       this.referenceChatMessageUser = firebase.firestore().collection('messages').where("uid", "==", this.state.uid);
+      console.log(this.referenceChatMessageUser);
     });
     }
 
