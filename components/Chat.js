@@ -1,23 +1,20 @@
 import React from 'react';
-
+import CustomActions from './CustomActions';
 // import for offline features
 import NetInfo from '@react-native-community/netinfo';
-
 // import to save messages locally
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 // import firebase to use google firebase database
 import firebase from 'firebase/compat/app';
 require('firebase/firestore');
-
 // v9 compat packages are API compatible with v8 code
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-
 // import gifted chat to create a chat UI
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
-
 import { View, Platform, KeyboardAvoidingView, StyleSheet } from 'react-native';
+// import MapView for geolocation feature
+import MapView from 'react-native-maps';
 
 
 // firebase credentials
@@ -45,7 +42,9 @@ export default class Chat extends React.Component {
         name: '',
         avatar: '',
       },
-      isConnected: true
+      isConnected: true,
+      image: null,
+      location: null,
     };
     // grab the collection messages from the firestore DB
     this.referenceChatMessages = firebase.firestore().collection("messages");
@@ -91,10 +90,11 @@ export default class Chat extends React.Component {
     // grab name prop from navigator router
     let name = this.props.route.params.name;
 
+    if (name === '') name = 'Anon';
+
     //once component has mounted, set the title at the top to the user's input
     this.props.navigation.setOptions({ title: name });
 
-    if (name === '') name = 'Anon';
 
     // check to see if the user is offline or online and with that, perform these operations
     NetInfo.fetch().then(connection => {
@@ -160,6 +160,8 @@ export default class Chat extends React.Component {
           name: data.user.name,
           avatar: data.user.avatar,
         },
+        image: data.image || null,
+        location: data.location || null,
       });
     });
     this.setState({
@@ -178,6 +180,8 @@ export default class Chat extends React.Component {
       text: message.text || '',
       createdAt: message.createdAt,
       user: this.state.user,
+      image: message.image || '',
+      location: message.location || null,
     });
   }
 
@@ -216,6 +220,35 @@ export default class Chat extends React.Component {
     }
   }
 
+  // function to render geolcation feature
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{
+            width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3,
+          }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
+  // attribute for gifted chat to render Custom Actions 
+  renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
+  }
+
   render() {
     // set the background color to selected user color from start
     let bgColor = this.props.route.params.bgColor;
@@ -223,6 +256,8 @@ export default class Chat extends React.Component {
       <View style={{ backgroundColor: bgColor, flex: 1 }}>
         <View style={styles.giftedChatContainer}>
           <GiftedChat
+            renderActions={this.renderCustomActions}
+            renderCustomView={this.renderCustomView}
             renderUsernameOnMessage={true}
             accessible={true}
             accessibilityLabel="Chat"
