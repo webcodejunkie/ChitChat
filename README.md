@@ -55,3 +55,5 @@ and location data.
 
 * React Native
 * Expo
+* AsyncStorage — To save message locally for offline capabilites
+* Firebase — Firestore Database for real-time data exchange
