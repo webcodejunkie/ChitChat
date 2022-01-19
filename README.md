@@ -1,5 +1,8 @@
 # ChitChat —  Messaging Mobile Application
 
+## Quick Demo
+https://youtu.be/5BbOw4Pt9NI
+
 ## Application Description & Goal
 
 ### Description
