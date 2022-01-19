@@ -4,10 +4,39 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import PropTypes from 'prop-types';
 // import firebase to use google firebase database
-import firebase from 'firebase/compat/app';
-import 'firebase/storage';   // <-- See the addition here
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 export default class CustomActions extends React.Component {
+  // function to take the image and upload the blob to the cloud
+  uploadImage = async (uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e)
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+
+    });
+
+    const imageNameBefore = uri.split("/");
+    const imageName = imageNameBefore[imageNameBefore.length - 1];
+
+    const ref = firebase.storage().ref().child(`images/${imageName}`);
+
+    const snapshot = await ref.put(blob);
+    console.log('uploaded!');
+
+    blob.close();
+
+    return await snapshot.ref.getDownloadURL();
+  };
 
   // function to use phones galley to select a picture to upload
   pickImage = async () => {
@@ -80,38 +109,7 @@ export default class CustomActions extends React.Component {
     }
   }
 
-  uploadImage = async (uri) => {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function (e) {
-        console.log(e)
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
-
-    });
-
-    const imageNameBefore = uri.split("/");
-    const imageName = imageNameBefore[imageNameBefore.length - 1];
-
-    const ref = firebase.storage().ref().child(`images/${imageName}`);
-
-    const snapshot = await ref.put(blob);
-    console.log('uploaded!');
-
-    blob.close();
-
-    return await snapshot.ref.getDownloadURL();
-  };
-
-
-
-
+  // actionSheet prop for the gifted chat component
   onActionPress = () => {
     const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
     const cancelButtonIndex = options.length - 1;

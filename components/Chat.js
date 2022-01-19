@@ -5,16 +5,18 @@ import NetInfo from '@react-native-community/netinfo';
 // import to save messages locally
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import firebase to use google firebase database
-import firebase from 'firebase/compat/app';
-require('firebase/firestore');
-// v9 compat packages are API compatible with v8 code
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 // import gifted chat to create a chat UI
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
 import { View, Platform, KeyboardAvoidingView, StyleSheet } from 'react-native';
 // import MapView for geolocation feature
 import MapView from 'react-native-maps';
+
+
+// Ignore log notification by message 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Setting a timer', 'AsyncStorage']);
 
 
 // firebase credentials
@@ -28,8 +30,9 @@ const firebaseConfig = {
   measurementId: "G-PD0P6GG6Z9"
 };
 
-let app;
-app = firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default class Chat extends React.Component {
   constructor(props) {
