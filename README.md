@@ -53,7 +53,8 @@ and location data.
 
 ## Technologies Built With
 
-* React Native
-* Expo
+* React Native — Mobile Application Library 
+* Expo — Framework To Provide Emulation and the backbone 
+* Gifted Chat
 * AsyncStorage — To save message locally for offline capabilites
 * Firebase — Firestore Database for real-time data exchange
