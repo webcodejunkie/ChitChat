@@ -16,7 +16,8 @@ import MapView from 'react-native-maps';
 
 // Ignore log notification by message 
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Setting a timer', 'AsyncStorage']);
+// known bugs, non-threatening warnings, will check back
+LogBox.ignoreLogs(['Setting a timer', 'AsyncStorage', 'Animated.event', 'Animated:']);
 
 
 // firebase credentials
